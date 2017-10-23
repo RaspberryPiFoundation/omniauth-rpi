@@ -1,4 +1,4 @@
-# Omniauth Raspberry Pi
+# OmniAuth Raspberry Pi
 
 This is the official OmniAuth strategy for authenticating to Raspberry pi.
 
@@ -16,7 +16,7 @@ And then execute:
 
 ## Basic Usage
 
-- [Integrating with Omniauth](https://github.com/omniauth/omniauth/wiki)
+- [Integrating with OmniAuth](https://github.com/omniauth/omniauth/wiki)
 - [Integrating with Devise](https://github.com/plataformatec/devise/wiki/OmniAuth:-Overview)
 
 
