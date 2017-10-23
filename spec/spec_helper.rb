@@ -1,5 +1,5 @@
 require "bundler/setup"
-require "omniauth_rpi"
+require "omniauth-rpi"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

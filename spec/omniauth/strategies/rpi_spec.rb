@@ -39,6 +39,30 @@ RSpec.describe OmniAuth::Strategies::Rpi do
     end
   end
 
+  context '#fullname' do
+    it 'should return fullname from raw_info if available' do
+      allow(subject).to receive(:raw_info).and_return({ 'name' => 'Jane Doe' })
+      expect(subject.fullname).to eq('Jane Doe')
+    end
+
+    it 'should return nil if there is no raw_info and fullname access is not allowed' do
+      allow(subject).to receive(:raw_info).and_return({})
+      expect(subject.fullname).to be_nil
+    end
+  end
+
+  context '#nickname' do
+    it 'should return nickname from raw_info if available' do
+      allow(subject).to receive(:raw_info).and_return({ 'nickname' => 'Raspberry Jane' })
+      expect(subject.nickname).to eq('Raspberry Jane')
+    end
+
+    it 'should return nil if there is no raw_info and nickname access is not allowed' do
+      allow(subject).to receive(:raw_info).and_return({})
+      expect(subject.nickname).to be_nil
+    end
+  end
+
   describe '#callback_url' do
     it 'is a combination of host and callback path' do
       allow(subject).to receive(:full_host).and_return('https://example.com')

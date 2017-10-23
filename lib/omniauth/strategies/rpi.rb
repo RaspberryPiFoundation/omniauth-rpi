@@ -5,9 +5,9 @@ module OmniAuth
   module Strategies
     class Rpi < OmniAuth::Strategies::OAuth2
       option :client_options, {
-        :site => 'http://localhost:9000',
-        :authorize_url => 'http://localhost:9000/oauth2/auth',
-        :token_url => 'http://localhost:9000/oauth2/token'
+        :site => 'https://auth.raspberrypi.org',
+        :authorize_url => 'https://auth.raspberrypi.org/oauth2/auth',
+        :token_url => 'https://auth.raspberrypi.org/oauth2/token'
       }
 
       def authorize_params
@@ -28,20 +28,35 @@ module OmniAuth
       end
 
       def callback_url
-        full_host + script_name + callback_path
+        full_host + callback_path
       end
 
       uid { raw_info['uuid'].to_s }
 
       info do
         {
-          'email' => raw_info['email']
+          'email' => email,
+          'nickname' => nickname,
+          'name' => fullname
         }
       end
 
       def raw_info
         @raw_info ||= (JWT.decode access_token.params["id_token"], nil, false)[0]
       end
+
+      def email
+        raw_info['email']
+      end
+
+      def nickname
+        raw_info['nickname']
+      end
+
+      def fullname
+        raw_info['name']
+      end
+
     end
   end
 end
