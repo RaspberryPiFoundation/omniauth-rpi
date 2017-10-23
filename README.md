@@ -25,3 +25,20 @@ use OmniAuth::Builder do
   provider :rpi, ENV['RASPBERRY_KEY'], ENV['RASPBERRY_SECRET']
 end
 ```
+
+## Use in development
+
+In development it is sometimes useful to point at a staging/local version of the authentication
+server (ie Hydra).
+
+```ruby
+use OmniAuth::Builder do
+  provider :rpi, ENV['RASPBERRY_KEY'], ENV['RASPBERRY_SECRET'],
+    :scope           => 'openid email profile',
+    :client_options  => {
+      :site          => 'http://localhost:9000',
+      :authorize_url => 'http://localhost:9000/oauth2/auth',
+      :token_url     => 'http://localhost:9000/oauth2/token'
+    }
+ )
+```
