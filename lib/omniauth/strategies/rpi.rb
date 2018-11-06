@@ -15,15 +15,6 @@ class OmniAuth::Strategies::Rpi < OmniAuth::Strategies::OAuth2
     end
   end
 
-  def build_access_token
-    options.token_params[:headers] = { 'Authorization' => basic_auth_header }
-    super
-  end
-
-  def basic_auth_header
-    'Basic ' + Base64.strict_encode64("#{options[:client_id]}:#{options[:client_secret]}")
-  end
-
   def callback_url
     full_host + callback_path
   end
