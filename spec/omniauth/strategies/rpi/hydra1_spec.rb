@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe OmniAuth::Strategies::Rpi do
+RSpec.describe OmniAuth::Strategies::Rpi::Hydra1 do
   subject(:strategy) { described_class.new({}) }
 
   let(:access_token) { instance_double('AccessToken', :options => {}) }
@@ -92,7 +92,7 @@ RSpec.describe OmniAuth::Strategies::Rpi do
     it 'is a combination of host and callback path' do
       allow(strategy).to receive(:full_host).and_return('https://example.com')
 
-      expect(strategy.callback_url).to eq('https://example.com/auth/rpi/callback')
+      expect(strategy.callback_url).to eq('https://example.com/auth/hydra1/callback')
     end
   end
 end

@@ -22,7 +22,7 @@ And then execute:
 
 ```ruby
 use OmniAuth::Builder do
-  provider :rpi, ENV['RASPBERRY_KEY'], ENV['RASPBERRY_SECRET']
+  provider OmniAuth::Strategies::Rpi::Hydra0, ENV['RASPBERRY_KEY'], ENV['RASPBERRY_SECRET']
 end
 ```
 
@@ -33,7 +33,7 @@ server (ie Hydra).
 
 ```ruby
 use OmniAuth::Builder do
-  provider :rpi, ENV['RASPBERRY_KEY'], ENV['RASPBERRY_SECRET'],
+  provider OmniAuth::Strategies::Rpi::Hydra0, ENV['RASPBERRY_KEY'], ENV['RASPBERRY_SECRET'],
     :scope           => 'openid email profile',
     :client_options  => {
       :site          => 'http://localhost:9000',
