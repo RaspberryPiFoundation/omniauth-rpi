@@ -1,2 +1,3 @@
 require 'omniauth-rpi/version' # rubocop:disable Style/FileName
-require 'omniauth/strategies/rpi'
+require 'omniauth/strategies/rpi/hydra0'
+require 'omniauth/strategies/rpi/hydra1'
