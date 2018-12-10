@@ -1,8 +1,8 @@
 require 'omniauth-oauth2'
 require 'jwt'
 
-module OmniAuth::Strategies::Rpi
-  class Hydra1 < OmniAuth::Strategies::OAuth2
+module OmniAuth::Strategies
+  class Hydra0 < OmniAuth::Strategies::OAuth2
     option :client_options,
            :site          => 'https://auth.raspberrypi.org',
            :authorize_url => 'https://auth.raspberrypi.org/oauth2/auth',
@@ -14,6 +14,15 @@ module OmniAuth::Strategies::Rpi
           params[v.to_sym] = request.params[v] if request.params[v]
         end
       end
+    end
+
+    def build_access_token
+       options.token_params[:headers] = { 'Authorization' => basic_auth_header }
+       super
+     end
+
+    def basic_auth_header
+     'Basic ' + Base64.strict_encode64("#{options[:client_id]}:#{options[:client_secret]}")
     end
 
     def callback_url
@@ -48,4 +57,4 @@ module OmniAuth::Strategies::Rpi
   end
 end
 
-OmniAuth.config.add_camelization 'hydra1', 'Hydra1'
+OmniAuth.config.add_camelization 'hydra0', 'Hydra0'
