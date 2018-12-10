@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe OmniAuth::Strategies::Rpi::Hydra1 do
+RSpec.describe OmniAuth::Strategies::Hydra1 do
   subject(:strategy) { described_class.new({}) }
 
   let(:access_token) { instance_double('AccessToken', :options => {}) }
