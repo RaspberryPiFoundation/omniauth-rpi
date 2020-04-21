@@ -2,10 +2,15 @@ module OmniAuth::Strategies
   class RpiFake
     include OmniAuth::Strategy
 
-    option :uid, 'b6301f34-b970-4d4f-8314-f877bad8b150'
-    option :email, 'web@raspberrypi.org'
-    option :nickname, 'Web'
-    option :name, 'Web Team'
+    DEFAULT_UID = 'b6301f34-b970-4d4f-8314-f877bad8b150'
+    DEFAULT_EMAIL = 'web@raspberrypi.org'
+    DEFAULT_NAME = 'Web Team'
+    DEFAULT_NICKNAME = 'Web'
+
+    option :uid, DEFAULT_UID
+    option :email, DEFAULT_EMAIL
+    option :name, DEFAULT_NAME
+    option :nickname, DEFAULT_NICKNAME
 
     uid { options.uid }
 

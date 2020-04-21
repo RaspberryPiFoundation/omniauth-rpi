@@ -1,65 +1,51 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 RSpec.describe OmniAuth::Strategies::RpiFake do
-  subject(:strategy) { described_class.new({}) }
+  subject { described_class.new({}, options) }
 
-  let(:access_token) { instance_double('AccessToken', :options => {}) }
-  let(:parsed_response) { instance_double('ParsedResponse') }
-  let(:response) { instance_double('Response', :parsed => parsed_response) }
+  let(:options) { {} }
 
-  let(:uid) { '1d27cca2-fef3-4f79-bc64-b76e93db84a2' }
-  let(:name) { 'Robert Flemming' }
-  let(:nickname) { 'Bob' }
-  let(:email) { 'bob.flemming@example.com' }
-
-  let(:development) do
-    described_class.new(nil, uid: uid,
-                        name: name,
-                        email: email,
-                        nickname: nickname)
+  context 'client options'
+  it 'has the default email' do
+    expect(subject.email).to eq(described_class::DEFAULT_EMAIL)
   end
 
-  context 'options' do
-    it 'has the default email' do
-      expect(strategy.options.email).to eq('web@raspberrypi.org')
-    end
-
-    it 'has the default name' do
-      expect(strategy.options.name).to eq('Web Team')
-    end
-
-    it 'has the default nickname' do
-      expect(strategy.options.nickname).to eq('Web')
-    end
-
-    it 'has the default uid' do
-      expect(strategy.options.uid).to eq('b6301f34-b970-4d4f-8314-f877bad8b150')
-    end
+  it 'has the default name' do
+    expect(subject.options.name).to eq(described_class::DEFAULT_NAME)
   end
 
-  context '#email' do
-    it 'returns default email' do
-      expect(strategy.email).to eq('web@raspberrypi.org')
-    end
-
-    context 'with the email set in options' do
-      it 'returns email from options' do
-        expect(development.email).to eq(email)
-      end
-    end
+  it 'has the default nickname' do
+    expect(subject.options.nickname).to eq(described_class::DEFAULT_NICKNAME)
   end
 
-  context '#name' do
-    it 'returns name from options' do
-      pp strategy.options
-      pp development.options
-      expect(development.name).to eq(name)
-    end
+  it 'has the default uid' do
+    expect(subject.options.uid).to eq(described_class::DEFAULT_UID)
   end
 
-  context '#nickname' do
-    it 'returns email from options' do
-      expect(development.email).to eq()
+  context 'with options specified' do
+    let(:uid) { '1d27cca2-fef3-4f79-bc64-b76e93db84a2' }
+    let(:name) { 'Robert Flemming' }
+    let(:nickname) { 'Bob' }
+    let(:email) { 'bob.flemming@example.com' }
+
+    let(:options) { { uid: uid, name: name, email: email, nickname: nickname } }
+
+    it 'has the email from options' do
+      expect(subject.email).to eq(email)
+    end
+
+    it 'has the name from options' do
+      expect(subject.name).to eq(name)
+    end
+
+    it 'has the nickname from options' do
+      expect(subject.nickname).to eq(nickname)
+    end
+
+    it 'has the uid from options' do
+      expect(subject.uid).to eq(uid)
     end
   end
 end
