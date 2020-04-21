@@ -1,5 +1,12 @@
+require 'simplecov'
+SimpleCov.start do
+  enable_coverage :branch
+  add_filter %r{^/spec/}
+end
+
 require 'bundler/setup'
 require 'omniauth-rpi'
+
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
