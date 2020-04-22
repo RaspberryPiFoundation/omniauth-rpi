@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe RpiOmniauthBypass do
+RSpec.describe RpiAuthBypass do
   using described_class
 
   around do |example|
@@ -11,12 +11,12 @@ RSpec.describe RpiOmniauthBypass do
 
     example.run
 
-    OmniAuth.config.disable_rpi_omniauth_bypass
+    OmniAuth.config.disable_rpi_auth_bypass
     OmniAuth.config.logger.level = level
   end
 
-  describe 'OmniAuth::Configuration#enable_rpi_omniauth_bypass' do
-    subject { OmniAuth.config.enable_rpi_omniauth_bypass }
+  describe 'OmniAuth::Configuration#enable_rpi_auth_bypass' do
+    subject { OmniAuth.config.enable_rpi_auth_bypass }
 
     it 'sets test_mode to true' do
       expect { subject }.to change { OmniAuth.config.test_mode }.from(false).to(true)
@@ -37,19 +37,19 @@ RSpec.describe RpiOmniauthBypass do
     subject { OmniAuth.config.mock_auth[:rpi] }
 
     it 'has the default uid' do
-      expect(subject.uid).to eq(RpiOmniauthBypass::DEFAULT_UID)
+      expect(subject.uid).to eq(RpiAuthBypass::DEFAULT_UID)
     end
 
     it 'has the default email' do
-      expect(subject.info.email).to eq(RpiOmniauthBypass::DEFAULT_EMAIL)
+      expect(subject.info.email).to eq(RpiAuthBypass::DEFAULT_EMAIL)
     end
 
     it 'has the default name' do
-      expect(subject.info.name).to eq(RpiOmniauthBypass::DEFAULT_NAME)
+      expect(subject.info.name).to eq(RpiAuthBypass::DEFAULT_NAME)
     end
 
     it 'has the default nickname' do
-      expect(subject.info.nickname).to eq(RpiOmniauthBypass::DEFAULT_NICKNAME)
+      expect(subject.info.nickname).to eq(RpiAuthBypass::DEFAULT_NICKNAME)
     end
 
     context 'with info specified' do
