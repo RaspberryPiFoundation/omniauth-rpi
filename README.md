@@ -45,10 +45,12 @@ use OmniAuth::Builder do
 
 ## Bypassing OmniAuth/OAuth
 
-It is also possible to bypass omniauth/ entirely, which can be useful in circumstances where hostnames are dynamic, e.g. in review deployments.  To do this add the following code to your OmniAuth initializer.
+It is also possible to bypass OmniAuth (and OAuth) **entirely**, which can be useful in circumstances where hostnames are dynamic, e.g. in review deployments.  To do this add the following code to your OmniAuth initializer.
 
 ```ruby
-if ENV.has_key? 'BYPASS_AUTH' # This environment variable can be changed to whatever you like.
+# We've usually used an environment variable set outside the app to trigger the
+# auth bypass.
+if ENV.has_key? 'BYPASS_OAUTH'
   using RpiAuthBypass
   OmniAuth.config.enable_rpi_auth_bypass
 end
@@ -65,14 +67,14 @@ If you wish to specify your user's details, you can add the info manually with t
 OmniAuth.config.add_rpi_mock(uid: '1234', info: {name: 'Example', nickname: 'Ex', email: 'ex@example.com' } )
 ```
 
-All this could also be done inside the `OmniAuth::Bulder` block too.
+All this could also be done inside the `OmniAuth::Builder` block too.
 
 ```ruby
 using RpiAuthBypass
 
 use OmniAuth::Builder do
   configure do |c|
-    if ENV.has_key? 'BYPASS_AUTH'
+    if ENV.has_key? 'BYPASS_OAUTH'
       c.enable_rpi_auth_bypass
       c.add_rpi_mock(uid: 'foo', info: {name: ... } )
     end
