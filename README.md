@@ -42,3 +42,44 @@ use OmniAuth::Builder do
     }
  )
 ```
+
+## Bypassing OmniAuth/OAuth
+
+It is also possible to bypass OmniAuth (and OAuth) **entirely**, which can be useful in circumstances where hostnames are dynamic, e.g. in review deployments.  To do this add the following code to your OmniAuth initializer.
+
+```ruby
+# We've usually used an environment variable set outside the app to trigger the
+# auth bypass.
+if ENV.has_key? 'BYPASS_OAUTH'
+  using RpiAuthBypass
+  OmniAuth.config.enable_rpi_auth_bypass
+end
+```
+
+This will log you in with the following details:
+  * uid: `b6301f34-b970-4d4f-8314-f877bad8b150`
+  * email: `web@raspberrypi.org`
+  * name: `Web Team`
+  * nickname: `Web`
+
+If you wish to specify your user's details, you can add the info manually with the following method call.
+```
+OmniAuth.config.add_rpi_mock(uid: '1234', info: {name: 'Example', nickname: 'Ex', email: 'ex@example.com' } )
+```
+
+All this could also be done inside the `OmniAuth::Builder` block too.
+
+```ruby
+using RpiAuthBypass
+
+use OmniAuth::Builder do
+  configure do |c|
+    if ENV.has_key? 'BYPASS_OAUTH'
+      c.enable_rpi_auth_bypass
+      c.add_rpi_mock(uid: 'foo', info: {name: ... } )
+    end
+  end
+end
+```
+
+
