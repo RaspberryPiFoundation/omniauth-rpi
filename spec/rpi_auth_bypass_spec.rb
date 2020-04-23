@@ -7,7 +7,8 @@ RSpec.describe RpiAuthBypass do
 
   around do |example|
     # Alter logger to hide log messages.
-    level = OmniAuth.config.logger.level = Logger::WARN
+    level = OmniAuth.config.logger.level
+    OmniAuth.config.logger.level = Logger::WARN
 
     example.run
 
