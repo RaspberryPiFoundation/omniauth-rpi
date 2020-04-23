@@ -36,11 +36,4 @@ module RpiAuthBypass
 
     attr_writer :rpi_auth_bypass
   end
-
-  refine OmniAuth::Strategy do
-    def setup_phase
-      log :info, 'Using RpiAuthBypass' if config.rpi_auth_bypass
-      super
-    end
-  end
 end
