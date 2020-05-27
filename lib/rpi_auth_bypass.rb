@@ -5,10 +5,12 @@ module RpiAuthBypass
   DEFAULT_EMAIL = 'web@raspberrypi.org'
   DEFAULT_NAME = 'Web Team'
   DEFAULT_NICKNAME = 'Web'
+  DEFAULT_ROLES = 'user'
   DEFAULT_INFO = {
     name: DEFAULT_NAME,
     nickname: DEFAULT_NICKNAME,
-    email: DEFAULT_EMAIL
+    email: DEFAULT_EMAIL,
+    roles: DEFAULT_ROLES,
   }.freeze
 
   refine OmniAuth::Configuration do
