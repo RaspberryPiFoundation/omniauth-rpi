@@ -32,7 +32,7 @@ RSpec.describe RpiAuthBypass do
     let(:args) { {} }
 
     before do
-      OmniAuth.config.add_rpi_mock(args)
+      OmniAuth.config.add_rpi_mock(**args)
     end
 
     subject { OmniAuth.config.mock_auth[:rpi] }
@@ -53,12 +53,17 @@ RSpec.describe RpiAuthBypass do
       expect(subject.info.nickname).to eq(RpiAuthBypass::DEFAULT_NICKNAME)
     end
 
+    it 'has the default roles' do
+      expect(subject.info.roles).to eq(RpiAuthBypass::DEFAULT_ROLES)
+    end
+
     context 'with info specified' do
       let(:uid) { '1d27cca2-fef3-4f79-bc64-b76e93db84a2' }
       let(:name) { 'Robert Flemming' }
       let(:nickname) { 'Bob' }
       let(:email) { 'bob.flemming@example.com' }
-      let(:info) { { name: name, email: email, nickname: nickname } }
+      let(:roles) { 'gardener' }
+      let(:info) { { name: name, email: email, nickname: nickname, roles: roles } }
       let(:args) { { uid: uid, info: info } }
 
       it 'has the uid' do
@@ -75,6 +80,10 @@ RSpec.describe RpiAuthBypass do
 
       it 'has the nickname from info' do
         expect(subject.info.nickname).to eq(nickname)
+      end
+
+      it 'has the roles from info' do
+        expect(subject.info.roles).to eq(roles)
       end
     end
   end

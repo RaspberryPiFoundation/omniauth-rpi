@@ -36,6 +36,7 @@ module OmniAuth::Strategies
         'email'    => email,
         'nickname' => nickname,
         'name'     => fullname,
+        'roles'    => roles,
       }
     end
 
@@ -53,6 +54,10 @@ module OmniAuth::Strategies
 
     def fullname
       raw_info['name']
+    end
+
+    def roles
+      raw_info['roles']
     end
   end
 end
