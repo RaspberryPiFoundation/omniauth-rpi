@@ -32,7 +32,7 @@ RSpec.describe RpiAuthBypass do
     let(:args) { {} }
 
     before do
-      OmniAuth.config.add_rpi_mock(args)
+      OmniAuth.config.add_rpi_mock(**args)
     end
 
     subject { OmniAuth.config.mock_auth[:rpi] }
