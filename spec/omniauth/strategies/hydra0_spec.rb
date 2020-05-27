@@ -93,6 +93,18 @@ end
       end
     end
 
+    context '#roles' do
+      it 'returns roles from raw_info if available' do
+        allow(strategy).to receive(:raw_info).and_return('roles' => 'admin')
+        expect(strategy.roles).to eq('admin')
+      end
+
+      it 'returns nil if there is no raw_info and roles access is not allowed' do
+        allow(strategy).to receive(:raw_info).and_return({})
+        expect(strategy.roles).to be_nil
+      end
+    end
+
     describe '#callback_url' do
       it 'is a combination of host and callback path' do
         allow(strategy).to receive(:full_host).and_return('https://example.com')
