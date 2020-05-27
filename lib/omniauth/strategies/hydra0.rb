@@ -58,12 +58,9 @@ module OmniAuth::Strategies
       raw_info['nickname']
     end
 
+    # use fullname to avoid clash with 'name'
     def fullname
       raw_info['name']
-    end
-
-    def roles
-      raw_info['roles']
     end
 
     def image
