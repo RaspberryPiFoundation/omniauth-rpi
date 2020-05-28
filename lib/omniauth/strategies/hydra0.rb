@@ -34,9 +34,15 @@ module OmniAuth::Strategies
     info do
       {
         'email'    => email,
-        'nickname' => nickname,
         'name'     => fullname,
-        'roles'    => roles,
+        'nickname' => nickname,
+        'image'    => image,
+      }
+    end
+
+    extra do
+      {
+        'raw_info' => raw_info
       }
     end
 
@@ -52,12 +58,14 @@ module OmniAuth::Strategies
       raw_info['nickname']
     end
 
+    # use fullname to avoid clash with 'name'
     def fullname
       raw_info['name']
     end
 
-    def roles
-      raw_info['roles']
+    def image
+      # deserialise openid claim into auth schema
+      raw_info['picture']
     end
   end
 end

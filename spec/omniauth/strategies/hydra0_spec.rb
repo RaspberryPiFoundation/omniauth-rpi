@@ -58,50 +58,72 @@ end
     end
 
     context '#email' do
-      it 'returns email from raw_info if available' do
+      it 'returns email from deserialised info if available' do
         allow(strategy).to receive(:raw_info).and_return('email' => 'you@example.com')
         expect(strategy.email).to eq('you@example.com')
+        expect(strategy.info['email']).to eq('you@example.com')
       end
 
-      it 'returns nil if there is no raw_info and email access is not allowed' do
+      it 'returns nil if there is no email in raw_info' do
         allow(strategy).to receive(:raw_info).and_return({})
         expect(strategy.email).to be_nil
+        expect(strategy.info['email']).to be_nil
       end
     end
 
-    context '#fullname' do
-      it 'returns fullname from raw_info if available' do
-        allow(strategy).to receive(:raw_info).and_return('name' => 'Jane Doe')
+    context '#name' do
+      it 'returns name from deserialised info if available' do
+        allow(strategy).to receive(:raw_info).and_return({'name' => 'Jane Doe'})
         expect(strategy.fullname).to eq('Jane Doe')
+        expect(strategy.info['name']).to eq('Jane Doe')
       end
 
-      it 'returns nil if there is no raw_info and fullname access is not allowed' do
+      it 'returns nil if there is no name in raw_info' do
         allow(strategy).to receive(:raw_info).and_return({})
         expect(strategy.fullname).to be_nil
+        expect(strategy.info['name']).to be_nil
       end
     end
 
     context '#nickname' do
-      it 'returns nickname from raw_info if available' do
-        allow(strategy).to receive(:raw_info).and_return('nickname' => 'Raspberry Jane')
+      it 'returns nickname from deserialised info if available' do
+        allow(strategy).to receive(:raw_info).and_return({'nickname' => 'Raspberry Jane'})
         expect(strategy.nickname).to eq('Raspberry Jane')
+        expect(strategy.info['nickname']).to eq('Raspberry Jane')
       end
 
-      it 'returns nil if there is no raw_info and nickname access is not allowed' do
+      it 'returns nil if there is no nickname in raw_info' do
         allow(strategy).to receive(:raw_info).and_return({})
         expect(strategy.nickname).to be_nil
+        expect(strategy.info['nickname']).to be_nil
       end
     end
 
-    context '#roles' do
-      it 'returns roles from raw_info if available' do
-        allow(strategy).to receive(:raw_info).and_return('roles' => 'admin')
-        expect(strategy.roles).to eq('admin')
+    context '#image' do
+      it 'returns image from deserialised info if available' do
+        allow(strategy).to receive(:raw_info).and_return({'picture' => '/profile/1234/avatar'})
+        expect(strategy.image).to eq('/profile/1234/avatar')
+        expect(strategy.info['image']).to eq('/profile/1234/avatar')
       end
 
-      it 'returns nil if there is no raw_info and roles access is not allowed' do
+      it 'returns nil if there is no picture in raw_info' do
         allow(strategy).to receive(:raw_info).and_return({})
-        expect(strategy.roles).to be_nil
+        expect(strategy.image).to be_nil
+        expect(strategy.info['image']).to be_nil
+      end
+    end      
+
+    context '#extra' do
+      it 'returns roles and picture from deserialised extra if available' do
+        allow(strategy).to receive(:raw_info).and_return({'roles' => 'admin', 'picture' => '/profile/1234/avatar'})
+        expect(strategy.extra['raw_info']['roles']).to eq('admin')
+        expect(strategy.extra['raw_info']['picture']).to eq('/profile/1234/avatar')
+      end
+
+      it 'returns nil if no roles or picture in raw_info' do
+        allow(strategy).to receive(:raw_info).and_return({})
+        expect(strategy.extra['raw_info']['roles']).to be_nil
+        expect(strategy.extra['raw_info']['picture']).to be_nil
       end
     end
 
