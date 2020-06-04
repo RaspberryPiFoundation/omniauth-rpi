@@ -5,12 +5,30 @@ module RpiAuthBypass
   DEFAULT_EMAIL = 'web@raspberrypi.org'
   DEFAULT_NAME = 'Web Team'
   DEFAULT_NICKNAME = 'Web'
+  DEFAULT_PROFILE = 'https://profile.raspberrypi.org/not/a/real/path'
+  DEFAULT_IMAGE = 'https://www.placecage.com/200/200'
   DEFAULT_ROLES = 'user'
+  DEFAULT_COUNTRY = 'United Kingdom'
+  DEFAULT_COUNTRY_CODE = 'GB'
+  DEFAULT_POSTCODE = 'SW1A 1AA'
   DEFAULT_INFO = {
     name: DEFAULT_NAME,
     nickname: DEFAULT_NICKNAME,
     email: DEFAULT_EMAIL,
-    roles: DEFAULT_ROLES,
+    image: DEFAULT_IMAGE,
+  }.freeze
+  DEFAULT_EXTRA = {
+    raw_info: {
+      roles: DEFAULT_ROLES,
+      name: DEFAULT_NAME,
+      nickname: DEFAULT_NICKNAME,
+      email: DEFAULT_EMAIL,
+      country: DEFAULT_COUNTRY,
+      country_code: DEFAULT_COUNTRY_CODE,
+      postcode: DEFAULT_POSTCODE,
+      profile: DEFAULT_PROFILE,
+      avatar: DEFAULT_IMAGE,
+    }
   }.freeze
 
   refine OmniAuth::Configuration do
@@ -28,11 +46,12 @@ module RpiAuthBypass
       self.test_mode = self.rpi_auth_bypass = false
     end
 
-    def add_rpi_mock(uid: RpiAuthBypass::DEFAULT_UID, info: RpiAuthBypass::DEFAULT_INFO)
+    def add_rpi_mock(uid: RpiAuthBypass::DEFAULT_UID, info: RpiAuthBypass::DEFAULT_INFO, extra: RpiAuthBypass::DEFAULT_EXTRA)
       add_mock(:rpi, {
                  provider: 'Rpi',
                  uid: uid,
-                 info: info
+                 info: info,
+                 extra: extra,
                })
     end
 
