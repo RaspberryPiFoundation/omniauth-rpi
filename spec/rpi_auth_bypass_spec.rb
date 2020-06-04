@@ -53,18 +53,59 @@ RSpec.describe RpiAuthBypass do
       expect(subject.info.nickname).to eq(RpiAuthBypass::DEFAULT_NICKNAME)
     end
 
-    it 'has the default roles' do
-      expect(subject.info.roles).to eq(RpiAuthBypass::DEFAULT_ROLES)
+    it 'has the default image' do
+      expect(subject.info.image).to eq(RpiAuthBypass::DEFAULT_IMAGE)
     end
 
-    context 'with info specified' do
+    it 'has the default roles' do
+      expect(subject.extra.raw_info.roles).to eq(RpiAuthBypass::DEFAULT_ROLES)
+    end
+
+    it 'has the default avatar' do
+      expect(subject.extra.raw_info.avatar).to eq(RpiAuthBypass::DEFAULT_IMAGE)
+    end
+
+    it 'has the default profile' do
+      expect(subject.extra.raw_info.profile).to eq(RpiAuthBypass::DEFAULT_PROFILE)
+    end
+
+    it 'has the default country' do
+      expect(subject.extra.raw_info.country).to eq(RpiAuthBypass::DEFAULT_COUNTRY)
+    end
+
+    it 'has the default country code' do
+      expect(subject.extra.raw_info.country_code).to eq(RpiAuthBypass::DEFAULT_COUNTRY_CODE)
+    end
+
+    it 'has the default postcode' do
+      expect(subject.extra.raw_info.postcode).to eq(RpiAuthBypass::DEFAULT_POSTCODE)
+    end
+
+    context 'with info and extra specified' do
       let(:uid) { '1d27cca2-fef3-4f79-bc64-b76e93db84a2' }
       let(:name) { 'Robert Flemming' }
       let(:nickname) { 'Bob' }
       let(:email) { 'bob.flemming@example.com' }
       let(:roles) { 'gardener' }
-      let(:info) { { name: name, email: email, nickname: nickname, roles: roles } }
-      let(:args) { { uid: uid, info: info } }
+      let(:image) { 'https://my.avatar.com/image/1' }
+      let(:profile) { 'https://my.user.com/profile/1' }
+      let(:country) { 'United States' }
+      let(:country_code) { 'US' }
+      let(:postcode) { '123456' }
+
+      let(:info) { { name: name, email: email, nickname: nickname, image: image } }
+      let(:extra) { { raw_info: { 
+        name: name,
+        email: email,
+        nickname: nickname,
+        roles: roles,
+        avatar: image,
+        profile: profile,
+        country: country,
+        country_code: country_code,
+        postcode: postcode
+      } } }
+      let(:args) { { uid: uid, info: info, extra: extra } }
 
       it 'has the uid' do
         expect(subject.uid).to eq(uid)
@@ -82,8 +123,44 @@ RSpec.describe RpiAuthBypass do
         expect(subject.info.nickname).to eq(nickname)
       end
 
-      it 'has the roles from info' do
-        expect(subject.info.roles).to eq(roles)
+      it 'has the image from info' do
+        expect(subject.info.image).to eq(image)
+      end
+
+      it 'has the email from extra' do
+        expect(subject.extra.raw_info.email).to eq(email)
+      end
+
+      it 'has the name from extra' do
+        expect(subject.extra.raw_info.name).to eq(name)
+      end
+
+      it 'has the nickname from extra' do
+        expect(subject.extra.raw_info.nickname).to eq(nickname)
+      end
+
+      it 'has the roles from extra' do
+        expect(subject.extra.raw_info.roles).to eq(roles)
+      end
+
+      it 'has the avatar from extra' do
+        expect(subject.extra.raw_info.avatar).to eq(image)
+      end
+
+      it 'has the profile from extra' do
+        expect(subject.extra.raw_info.profile).to eq(profile)
+      end
+
+      it 'has the country from extra' do
+        expect(subject.extra.raw_info.country).to eq(country)
+      end
+
+      it 'has the country_code from extra' do
+        expect(subject.extra.raw_info.country_code).to eq(country_code)
+      end
+
+      it 'has the postcode from extra' do
+        expect(subject.extra.raw_info.postcode).to eq(postcode)
       end
     end
   end
