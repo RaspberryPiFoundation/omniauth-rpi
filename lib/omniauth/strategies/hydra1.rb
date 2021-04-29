@@ -4,9 +4,9 @@ require 'jwt'
 module OmniAuth::Strategies
   class Hydra1 < OmniAuth::Strategies::OAuth2
     option :client_options,
-           :site          => 'https://auth.raspberrypi.org',
-           :authorize_url => 'https://auth.raspberrypi.org/oauth2/auth',
-           :token_url     => 'https://auth.raspberrypi.org/oauth2/token'
+           :site          => 'https://auth1.raspberrypi.org',
+           :authorize_url => 'https://auth1.raspberrypi.org/oauth2/auth',
+           :token_url     => 'https://auth1.raspberrypi.org/oauth2/token'
 
     def authorize_params
       super.tap do |params|
@@ -27,6 +27,13 @@ module OmniAuth::Strategies
         'email'    => email,
         'nickname' => nickname,
         'name'     => fullname,
+        'image'    => image,
+      }
+    end
+
+    extra do
+      {
+        'raw_info' => raw_info
       }
     end
 
@@ -42,8 +49,14 @@ module OmniAuth::Strategies
       raw_info['nickname']
     end
 
+    # use fullname to avoid clash with 'name'
     def fullname
       raw_info['name']
+    end
+
+    def image
+      # deserialise openid claim into auth schema
+      raw_info['picture']
     end
   end
 end
