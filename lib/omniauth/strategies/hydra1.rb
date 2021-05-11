@@ -38,6 +38,12 @@ module OmniAuth::Strategies
       }
     end
 
+    extra do
+      {
+        'raw_info' => raw_info
+      }
+    end
+
     def raw_info
       @raw_info ||= (JWT.decode access_token.params['id_token'], nil, false)[0]
     end
