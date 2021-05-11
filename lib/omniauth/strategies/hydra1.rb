@@ -20,7 +20,7 @@ module OmniAuth::Strategies
       full_host + callback_path
     end
 
-    uid { raw_info['uuid'].to_s }
+    uid { raw_info['sid'].to_s }
 
     info do
       {
