@@ -34,6 +34,7 @@ module OmniAuth::Strategies
     info do
       {
         'email'    => email,
+        'username' => username,
         'name'     => fullname,
         'nickname' => nickname,
         'image'    => image,
@@ -52,6 +53,11 @@ module OmniAuth::Strategies
 
     def email
       raw_info['email']
+    end
+
+    # <13 accounts have username instead of email
+    def username
+      raw_info['username']
     end
 
     def nickname
