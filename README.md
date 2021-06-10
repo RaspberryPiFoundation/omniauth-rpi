@@ -82,4 +82,6 @@ use OmniAuth::Builder do
 end
 ```
 
+## Publishing changes
 
+When publishing changes to the provider, don't forget to bump the version number in `lib/omniauth-rpi/version.rb`

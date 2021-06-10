@@ -45,6 +45,10 @@ RSpec.describe RpiAuthBypass do
       expect(subject.info.email).to eq(RpiAuthBypass::DEFAULT_EMAIL)
     end
 
+    it 'has the default username' do
+      expect(subject.info.username).to eq(RpiAuthBypass::DEFAULT_USERNAME)
+    end
+
     it 'has the default name' do
       expect(subject.info.name).to eq(RpiAuthBypass::DEFAULT_NAME)
     end
@@ -86,6 +90,7 @@ RSpec.describe RpiAuthBypass do
       let(:name) { 'Robert Flemming' }
       let(:nickname) { 'Bob' }
       let(:email) { 'bob.flemming@example.com' }
+      let(:username) { 'bob.flemming' }
       let(:roles) { 'gardener' }
       let(:image) { 'https://my.avatar.com/image/1' }
       let(:profile) { 'https://my.user.com/profile/1' }
@@ -93,10 +98,11 @@ RSpec.describe RpiAuthBypass do
       let(:country_code) { 'US' }
       let(:postcode) { '123456' }
 
-      let(:info) { { name: name, email: email, nickname: nickname, image: image } }
+      let(:info) { { name: name, email: email, username: username, nickname: nickname, image: image } }
       let(:extra) { { raw_info: { 
         name: name,
         email: email,
+        username: username,
         nickname: nickname,
         roles: roles,
         avatar: image,
@@ -115,6 +121,10 @@ RSpec.describe RpiAuthBypass do
         expect(subject.info.email).to eq(email)
       end
 
+      it 'has the username from info' do
+        expect(subject.info.username).to eq(username)
+      end
+
       it 'has the name from info' do
         expect(subject.info.name).to eq(name)
       end
@@ -129,6 +139,10 @@ RSpec.describe RpiAuthBypass do
 
       it 'has the email from extra' do
         expect(subject.extra.raw_info.email).to eq(email)
+      end
+
+      it 'has the username from extra' do
+        expect(subject.extra.raw_info.username).to eq(username)
       end
 
       it 'has the name from extra' do

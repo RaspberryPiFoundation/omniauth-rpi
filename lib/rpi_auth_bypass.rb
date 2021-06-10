@@ -3,6 +3,7 @@
 module RpiAuthBypass
   DEFAULT_UID = 'b6301f34-b970-4d4f-8314-f877bad8b150'
   DEFAULT_EMAIL = 'web@raspberrypi.org'
+  DEFAULT_USERNAME = 'webteam'
   DEFAULT_NAME = 'Web Team'
   DEFAULT_NICKNAME = 'Web'
   DEFAULT_PROFILE = 'https://profile.raspberrypi.org/not/a/real/path'
@@ -15,6 +16,7 @@ module RpiAuthBypass
     name: DEFAULT_NAME,
     nickname: DEFAULT_NICKNAME,
     email: DEFAULT_EMAIL,
+    username: DEFAULT_USERNAME,
     image: DEFAULT_IMAGE,
   }.freeze
   DEFAULT_EXTRA = {
@@ -23,6 +25,7 @@ module RpiAuthBypass
       name: DEFAULT_NAME,
       nickname: DEFAULT_NICKNAME,
       email: DEFAULT_EMAIL,
+      username: DEFAULT_USERNAME,
       country: DEFAULT_COUNTRY,
       country_code: DEFAULT_COUNTRY_CODE,
       postcode: DEFAULT_POSTCODE,
