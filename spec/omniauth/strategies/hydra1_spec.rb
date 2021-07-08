@@ -11,17 +11,18 @@ end
     let(:access_token) { instance_double('AccessToken', :options => {}) }
     let(:parsed_response) { instance_double('ParsedResponse') }
     let(:response) { instance_double('Response', :parsed => parsed_response) }
+    let(:app) { lambda{|env| [200, {}, ["Hello World."]]} }
 
     let(:development_site)          { 'http://localhost:9000/api/v3' }
     let(:development_authorize_url) { 'http://localhost:9000/login/oauth/authorize' }
     let(:development_token_url)     { 'http://localhost:9000/login/oauth/access_token' }
 
     let(:development) do
-      described_class.new(:client_options => {
-                            :site          => development_site,
-                            :authorize_url => development_authorize_url,
-                            :token_url     => development_token_url,
-                          })
+      described_class.new(app, client_options: {
+        site: development_site,
+        authorize_url: development_authorize_url,
+        token_url: development_token_url
+      })
     end
 
     before(:each) do
@@ -30,15 +31,15 @@ end
 
     context 'client options' do
       it 'has the correct site url' do
-        expect(strategy.options.client_options.site).to eq('https://authv1.raspberrypi.org')
+        expect(strategy.options.client_options.site).to eq('https://auth1.raspberrypi.org')
       end
 
       it 'has the correct authorize url' do
-        expect(strategy.options.client_options.authorize_url).to eq('https://authv1.raspberrypi.org/oauth2/auth')
+        expect(strategy.options.client_options.authorize_url).to eq('https://auth1.raspberrypi.org/oauth2/auth')
       end
 
       it 'has the correct token url' do
-        expect(strategy.options.client_options.token_url).to eq('https://authv1.raspberrypi.org/oauth2/token')
+        expect(strategy.options.client_options.token_url).to eq('https://auth1.raspberrypi.org/oauth2/token')
       end
 
       describe 'defaults are overrideable' do
@@ -134,4 +135,4 @@ end
       end
     end
   end
-end
+}

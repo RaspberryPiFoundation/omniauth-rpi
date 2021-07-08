@@ -4,7 +4,7 @@ def provider_name(klass)
   klass.to_s.split("::")[-1].downcase
 end
 
-[OmniAuth::Strategies::Hydra0, OmniAuth::Strategies::Rpi].each{|provider|
+[OmniAuth::Strategies::Hydra0].each{|provider|
   RSpec.describe provider do
     subject(:strategy) { described_class.new({}) }
 
