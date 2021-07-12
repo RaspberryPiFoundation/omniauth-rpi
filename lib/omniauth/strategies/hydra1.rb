@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'omniauth-oauth2'
 require 'jwt'
 
@@ -19,8 +21,7 @@ module OmniAuth
       end
 
       def callback_url
-        full_host
-        puts callback_path
+        full_host + callback_path
       end
 
       uid { raw_info['user'].to_s }
