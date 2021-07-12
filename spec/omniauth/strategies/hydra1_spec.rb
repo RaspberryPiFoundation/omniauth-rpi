@@ -4,24 +4,45 @@ def provider_name(klass)
   klass.to_s.split("::")[-1].downcase
 end
 
+def make_env(path = '/auth/rpi', props = {})
+  {
+    'REQUEST_METHOD' => 'POST',
+    'PATH_INFO' => path,
+    'rack.session' => {},
+    'rack.input' => StringIO.new('test=true')
+  }.merge(props)
+end
+
 [OmniAuth::Strategies::Hydra1, OmniAuth::Strategies::Rpi].each{|provider|
   RSpec.describe provider do
-    subject(:strategy) { described_class.new({}) }
+    before do
+      OmniAuth.config.test_mode = true
+    end
+  
+    after do
+      OmniAuth.config.test_mode = false
+    end
+
+    let(:app) do
+      lambda { |_env| [404, {}, ['Awesome']] }
+    end
+
+    subject(:strategy) { described_class.new(app) }
 
     let(:access_token) { instance_double('AccessToken', :options => {}) }
     let(:parsed_response) { instance_double('ParsedResponse') }
     let(:response) { instance_double('Response', :parsed => parsed_response) }
-    let(:app) { lambda{|env| [200, {}, ["Hello World."]]} }
 
     let(:development_site)          { 'http://localhost:9000/api/v3' }
     let(:development_authorize_url) { 'http://localhost:9000/login/oauth/authorize' }
     let(:development_token_url)     { 'http://localhost:9000/login/oauth/access_token' }
 
     let(:development) do
-      described_class.new(app, client_options: {
-        site: development_site,
-        authorize_url: development_authorize_url,
-        token_url: development_token_url
+      described_class.new('RASPBERRY_KEY', 'RASPBERRY_SECRET',
+        client_options: {
+          site: development_site,
+          authorize_url: development_authorize_url,
+          token_url: development_token_url
       })
     end
 
@@ -130,6 +151,7 @@ end
     describe '#callback_url' do
       it 'is a combination of host and callback path' do
         allow(strategy).to receive(:full_host).and_return('https://example.com')
+        strategy.instance_variable_set(:@env, {})
 
         expect(strategy.callback_url).to eq("https://example.com/auth/#{provider_name provider}/callback")
       end

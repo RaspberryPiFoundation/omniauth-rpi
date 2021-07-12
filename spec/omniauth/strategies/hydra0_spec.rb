@@ -130,6 +130,7 @@ end
     describe '#callback_url' do
       it 'is a combination of host and callback path' do
         allow(strategy).to receive(:full_host).and_return('https://example.com')
+        strategy.instance_variable_set(:@env, {})
 
         expect(strategy.callback_url).to eq("https://example.com/auth/#{provider_name provider}/callback")
       end
