@@ -52,15 +52,15 @@ end
 
     context 'client options' do
       it 'has the correct site url' do
-        expect(strategy.options.client_options.site).to eq('https://auth1.raspberrypi.org')
+        expect(strategy.options.client_options.site).to eq('https://auth-v1.raspberrypi.org')
       end
 
       it 'has the correct authorize url' do
-        expect(strategy.options.client_options.authorize_url).to eq('https://auth1.raspberrypi.org/oauth2/auth')
+        expect(strategy.options.client_options.authorize_url).to eq('https://auth-v1.raspberrypi.org/oauth2/auth')
       end
 
       it 'has the correct token url' do
-        expect(strategy.options.client_options.token_url).to eq('https://auth1.raspberrypi.org/oauth2/token')
+        expect(strategy.options.client_options.token_url).to eq('https://auth-v1.raspberrypi.org/oauth2/token')
       end
 
       describe 'defaults are overrideable' do

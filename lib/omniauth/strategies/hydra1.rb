@@ -7,9 +7,9 @@ module OmniAuth
   module Strategies
     class Hydra1 < OmniAuth::Strategies::OAuth2 
       option :client_options, {
-        site:         'https://auth1.raspberrypi.org',
-        authorize_url:'https://auth1.raspberrypi.org/oauth2/auth',
-        token_url:    'https://auth1.raspberrypi.org/oauth2/token'
+        site:         'https://auth-v1.raspberrypi.org',
+        authorize_url:'https://auth-v1.raspberrypi.org/oauth2/auth',
+        token_url:    'https://auth-v1.raspberrypi.org/oauth2/token'
       }
 
       def authorize_params
