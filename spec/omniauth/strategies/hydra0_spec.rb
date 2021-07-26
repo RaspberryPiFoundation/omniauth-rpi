@@ -4,7 +4,7 @@ def provider_name(klass)
   klass.to_s.split("::")[-1].downcase
 end
 
-[OmniAuth::Strategies::Hydra0, OmniAuth::Strategies::Rpi].each{|provider|
+[OmniAuth::Strategies::Hydra0].each{|provider|
   RSpec.describe provider do
     subject(:strategy) { described_class.new({}) }
 
@@ -130,6 +130,7 @@ end
     describe '#callback_url' do
       it 'is a combination of host and callback path' do
         allow(strategy).to receive(:full_host).and_return('https://example.com')
+        strategy.instance_variable_set(:@env, {})
 
         expect(strategy.callback_url).to eq("https://example.com/auth/#{provider_name provider}/callback")
       end
