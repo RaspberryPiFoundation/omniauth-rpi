@@ -7,7 +7,7 @@ This is the official OmniAuth strategy for authenticating to Raspberry pi.
 Add this line to your application's Gemfile:
 
 ```ruby
-gem "omniauth-rpi", git: "https://github.com/RaspberryPiFoundation/omniauth-rpi.git", tag: "v0.6.0"
+gem "omniauth-rpi", git: "https://github.com/RaspberryPiFoundation/omniauth-rpi.git", tag: "v1.0.0"
 ```
 
 And then execute:
@@ -22,7 +22,7 @@ And then execute:
 
 ```ruby
 use OmniAuth::Builder do
-  provider OmniAuth::Strategies::Hydra0, ENV['RASPBERRY_KEY'], ENV['RASPBERRY_SECRET']
+  provider OmniAuth::Strategies::Hydra1, ENV['RASPBERRY_KEY'], ENV['RASPBERRY_SECRET']
 end
 ```
 
@@ -33,7 +33,7 @@ server (ie Hydra).
 
 ```ruby
 use OmniAuth::Builder do
-  provider OmniAuth::Strategies::Hydra0, ENV['RASPBERRY_KEY'], ENV['RASPBERRY_SECRET'],
+  provider OmniAuth::Strategies::Hydra1, ENV['RASPBERRY_KEY'], ENV['RASPBERRY_SECRET'],
     :scope           => 'openid email profile',
     :client_options  => {
       :site          => 'http://localhost:9000',
