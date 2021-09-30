@@ -11,10 +11,10 @@ module OmniAuth
         authorize_url:'https://auth-v1.raspberrypi.org/oauth2/auth',
         token_url:    'https://auth-v1.raspberrypi.org/oauth2/token'
       }
-
+  
       def authorize_params
         super.tap do |params|
-          %w[scope client_options].each do |v|
+          %w[scope client_options force_signup].each do |v|
             params[v.to_sym] = request.params[v] if request.params[v]
           end
         end
