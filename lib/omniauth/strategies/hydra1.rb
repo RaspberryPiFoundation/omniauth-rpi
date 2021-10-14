@@ -14,7 +14,7 @@ module OmniAuth
   
       def authorize_params
         super.tap do |params|
-          %w[scope client_options force_signup].each do |v|
+          %w[scope client_options login_options].each do |v|
             params[v.to_sym] = request.params[v] if request.params[v]
           end
         end
