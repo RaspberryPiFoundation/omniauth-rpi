@@ -1,13 +1,13 @@
 # OmniAuth Raspberry Pi
 
-This is the official OmniAuth strategy for authenticating to Raspberry pi.
+This is the official OmniAuth strategy for authenticating to Raspberry Pi Accounts using Hydra v1 (for Hydra v0 see the `hydra-v0` branch and `v0.x.x` releases).
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'omniauth-rpi', '~> 1.1.0'
+gem 'omniauth-rpi', '~> 1.3.1'
 ```
 
 And then execute:
@@ -82,6 +82,14 @@ use OmniAuth::Builder do
 end
 ```
 
+## Testing
+
+Run:
+
+```
+rspec
+```
+
 ## Publishing changes
 
-When publishing changes to the provider, don't forget to bump the version number in `lib/omniauth-rpi/version.rb`
+When publishing changes to the provider, don't forget to bump the version number in `lib/omniauth-rpi/version.rb` and update `CHANGELOG.md` accordingly.
