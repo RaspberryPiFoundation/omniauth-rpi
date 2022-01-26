@@ -18,15 +18,43 @@ And then execute:
 
 ## Basic Usage
 
-- [Integrating with OmniAuth](https://github.com/omniauth/omniauth/wiki)
-- [Integrating with Devise](https://github.com/plataformatec/devise/wiki/OmniAuth:-Overview)
-
-
 ```ruby
 use OmniAuth::Builder do
   provider OmniAuth::Strategies::Hydra1, ENV['RASPBERRY_KEY'], ENV['RASPBERRY_SECRET']
 end
 ```
+
+## Usage with OmniAuth
+
+- [Integrating with OmniAuth](https://github.com/omniauth/omniauth/wiki)
+
+In `config/initializers/omniauth.rb`:
+
+```
+OmniAuth.config.logger = Rails.logger
+
+Rails.application.config.middleware.use OmniAuth::Builder do
+  provider(
+    OmniAuth::Strategies::Rpi, ENV['AUTH_CLIENT_ID'], ENV['AUTH_CLIENT_SECRET'],
+    scope: 'openid email profile force-consent',
+    callback_path: '/auth/callback',
+    client_options: {
+      site: ENV['AUTH_URL'],
+      authorize_url: "#{ENV['AUTH_URL']}/oauth2/auth",
+      token_url: "#{ENV['AUTH_URL']}/oauth2/token"
+    },
+    authorize_params: {
+      brand: '<brand>'
+    }
+  )
+
+  OmniAuth.config.on_failure = AuthController.action(:failure)
+end
+```
+
+## Usage with Devise
+
+- [Integrating with Devise](https://github.com/plataformatec/devise/wiki/OmniAuth:-Overview)
 
 ## Use in development
 
