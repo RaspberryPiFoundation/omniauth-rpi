@@ -16,14 +16,6 @@ And then execute:
 
     $ bundle
 
-## Basic Usage
-
-```ruby
-use OmniAuth::Builder do
-  provider OmniAuth::Strategies::Hydra1, ENV['RASPBERRY_KEY'], ENV['RASPBERRY_SECRET']
-end
-```
-
 ## Usage with OmniAuth
 
 - [Integrating with OmniAuth](https://github.com/omniauth/omniauth/wiki)
@@ -52,6 +44,8 @@ Rails.application.config.middleware.use OmniAuth::Builder do
 end
 ```
 
+(the `Rpi` strategy extends the `Hydra1` strategy)
+
 ## Usage with Devise
 
 - [Integrating with Devise](https://github.com/plataformatec/devise/wiki/OmniAuth:-Overview)
@@ -71,40 +65,49 @@ server (ie. Hydra).
 
 ## Bypassing OmniAuth/OAuth
 
-It is also possible to bypass OmniAuth (and OAuth) **entirely**, which can be useful in circumstances where hostnames are dynamic, e.g. in review deployments.  To do this add the following code to your OmniAuth initializer.
+It is also possible to bypass OmniAuth (and OAuth) entirely which can be useful in circumstances where hostnames are dynamic, e.g. in review deployments, as well as in development. To do this add the following code to your OmniAuth initializer:
 
 ```ruby
-# We've usually used an environment variable set outside the app to trigger the
-# auth bypass.
-if ENV.has_key? 'BYPASS_OAUTH'
+# Use an environment variable set outside the app to trigger the auth bypass
+if ENV['BYPASS_OAUTH'].present?
   using RpiAuthBypass
   OmniAuth.config.enable_rpi_auth_bypass
 end
 ```
 
 This will log you in with the following details:
-  * uid: `b6301f34-b970-4d4f-8314-f877bad8b150`
+  * uuid: `b6301f34-b970-4d4f-8314-f877bad8b150`
   * email: `web@raspberrypi.org`
   * name: `Web Team`
   * nickname: `Web`
 
-If you wish to specify your user's details, you can add the info manually with the following method call.
-```
-OmniAuth.config.add_rpi_mock(uid: '1234', info: {name: 'Example', nickname: 'Ex', email: 'ex@example.com' } )
-```
-
-All this could also be done inside the `OmniAuth::Builder` block too.
+If you wish to specify your user's details, you can add the info manually:
 
 ```ruby
-using RpiAuthBypass
-
-use OmniAuth::Builder do
-  configure do |c|
-    if ENV.has_key? 'BYPASS_OAUTH'
-      c.enable_rpi_auth_bypass
-      c.add_rpi_mock(uid: 'foo', info: {name: ... } )
-    end
-  end
+if ENV['BYPASS_OAUTH'].present?
+  using RpiAuthBypass
+  OmniAuth.config.add_rpi_mock(
+    uid: 'b6301f34-b970-4d4f-8314-f877bad8b150',
+    info: {
+      email: 'web@raspberrypi.org',
+      name: 'Digital Products Team',
+      nickname: 'DP',
+      image: 'https://static.raspberrypi.org/files/accounts/default-avatar.jpg'
+    },
+    extra: {
+      raw_info: {
+        name: 'Digital Products Team',
+        nickname: 'DP',
+        email: 'web@raspberrypi.org',
+        country: 'United Kingdom',
+        country_code: 'GB',
+        postcode: 'CB1 1AA',
+        picture: 'https://static.raspberrypi.org/files/accounts/default-avatar.jpg',
+        profile: 'https://my.raspberrypi.org/not/a/real/path'
+      }
+    }
+  )
+  OmniAuth.config.enable_rpi_auth_bypass
 end
 ```
 
