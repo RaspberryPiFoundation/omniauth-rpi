@@ -111,6 +111,16 @@ if ENV['BYPASS_OAUTH'].present?
 end
 ```
 
+## Forcing sign up flow
+
+It's possible to force a redirect to the Pi Accounts sign up page (rather than the default log in page) through:
+
+```
+POST /auth/rpi?login_options=force_signup
+```
+
+For the full documentation see: https://github.com/RaspberryPiFoundation/documentation/blob/main/accounts/force-signup.md
+
 ## Testing
 
 Run:
