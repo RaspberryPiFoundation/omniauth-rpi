@@ -7,7 +7,9 @@ This is the official OmniAuth strategy for authenticating to Raspberry Pi Accoun
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'omniauth-rpi', '~> 1.3.1'
+gem 'omniauth-rpi',
+    git: 'https://github.com/RaspberryPiFoundation/omniauth-rpi.git',
+    tag: 'v1.3.1'
 ```
 
 And then execute:
