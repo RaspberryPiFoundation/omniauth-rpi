@@ -9,7 +9,7 @@ Add this line to your application's Gemfile:
 ```ruby
 gem 'omniauth-rpi',
     git: 'https://github.com/RaspberryPiFoundation/omniauth-rpi.git',
-    tag: 'v1.3.1'
+    tag: 'v1.3.2'
 ```
 
 And then execute:
@@ -131,4 +131,8 @@ rspec
 
 ## Publishing changes
 
+https://rubygems.org/gems/omniauth-rpi
+
 When publishing changes to the provider, don't forget to bump the version number in `lib/omniauth-rpi/version.rb` and update `CHANGELOG.md` accordingly.
+
+How to publish to Rubygems: https://guides.rubygems.org/publishing/#publishing-to-rubygemsorg
