@@ -135,4 +135,9 @@ https://rubygems.org/gems/omniauth-rpi
 
 When publishing changes to the provider, don't forget to bump the version number in `lib/omniauth-rpi/version.rb` and update `CHANGELOG.md` accordingly.
 
-How to publish to Rubygems: https://guides.rubygems.org/publishing/#publishing-to-rubygemsorg
+```
+rake build
+gem push pkg/omniauth-rpi-x.x.x.gem
+```
+
+(how to publish to Rubygems: https://guides.rubygems.org/publishing/#publishing-to-rubygemsorg)
