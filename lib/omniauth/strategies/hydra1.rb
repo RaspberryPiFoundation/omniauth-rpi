@@ -24,7 +24,7 @@ module OmniAuth
         full_host + callback_path
       end
 
-      uid { raw_info['uuid'].to_s }
+      uid { raw_info['sub'].to_s }
 
       info do
         {
