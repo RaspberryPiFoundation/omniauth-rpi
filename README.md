@@ -111,6 +111,20 @@ if ENV['BYPASS_OAUTH'].present?
 end
 ```
 
+## v1 Signup redirects
+
+When a client application using Hydra v1 redirects to Pi Accounts / Profile to have a user sign up (either through the default login route with the user then opting to create an account, or through forcing signup (below)), it is necessary to set the `v1_signup` value in the `login_options` param:
+
+```
+POST /auth/rpi?login_options=v1_signup
+```
+
+This ensures that once the `/signup` route has been requested, upon a successful submission of verification code or token to the `/verify` endpoint, the browser is redirected to `/v1/login` so that the remainder of the auth flow can be completed, signing the user in with Hydra and redirecting back to the client application correctly (rather than just dumping the user at their Profile dashboard).
+
+**Note:** Whilst Hydra v0 routes are still the default in Pi Accounts / Profile, `?login_options=v1_signup` needs to be set for any login path, regardless of whether `force_signup` is also being set, this is to cover cases where a user clicks a log in link but then at the log in UI clicks the create account link instead of logging in.
+
+For the full documentation see: https://github.com/RaspberryPiFoundation/documentation/blob/main/accounts/profile-app/hydra-v1-signup.md
+
 ## Forcing sign up flow
 
 It's possible to force a redirect to the Pi Accounts sign up page (rather than the default log in page) through:
@@ -119,7 +133,9 @@ It's possible to force a redirect to the Pi Accounts sign up page (rather than t
 POST /auth/rpi?login_options=force_signup
 ```
 
-For the full documentation see: https://github.com/RaspberryPiFoundation/documentation/blob/main/accounts/force-signup.md
+(multiple options can be comma-separated, eg. `?login_options=v1_signup,force_signup`)
+
+For the full documentation see: https://github.com/RaspberryPiFoundation/documentation/blob/main/accounts/profile-app/force-signup.md
 
 ## Testing
 
