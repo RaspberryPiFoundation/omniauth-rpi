@@ -16,10 +16,12 @@ end
 [OmniAuth::Strategies::Hydra1, OmniAuth::Strategies::Rpi].each{|provider|
   RSpec.describe provider do
     before do
+      WebMock.disable_net_connect!
       OmniAuth.config.test_mode = true
     end
-  
+
     after do
+      WebMock.enable_net_connect!
       OmniAuth.config.test_mode = false
     end
 
@@ -33,47 +35,49 @@ end
     let(:parsed_response) { instance_double('ParsedResponse') }
     let(:response) { instance_double('Response', :parsed => parsed_response) }
 
-    let(:development_site)          { 'http://localhost:9000/api/v3' }
-    let(:development_authorize_url) { 'http://localhost:9000/login/oauth/authorize' }
-    let(:development_token_url)     { 'http://localhost:9000/login/oauth/access_token' }
+    let(:development_host) { 'localhost' }
+    let(:development_authorization_endpoint) { 'http://localhost:9000/login/oauth/authorize' }
+    let(:development_token_endpoint) { 'http://localhost:9000/login/oauth/access_token' }
 
     let(:development) do
-      described_class.new('RASPBERRY_KEY', 'RASPBERRY_SECRET',
+      described_class.new(app,
         client_options: {
-          site: development_site,
-          authorize_url: development_authorize_url,
-          token_url: development_token_url
+          host: development_host,
+          authorization_endpoint: development_authorization_endpoint,
+          token_endpoint: development_token_endpoint,
+          discovery: false
       })
     end
 
     before(:each) do
       allow(strategy).to receive(:access_token).and_return(access_token)
+      stub_request(:get, "https://auth-v1.raspberrypi.org/.well-known/openid-configuration").to_return(File.new('./spec/fixtures/openid-configuration'))
     end
 
     context 'client options' do
-      it 'has the correct site url' do
-        expect(strategy.options.client_options.site).to eq('https://auth-v1.raspberrypi.org')
+      it 'has the correct host' do
+        expect(strategy.options.client_options.host).to eq('auth-v1.raspberrypi.org')
       end
 
-      it 'has the correct authorize url' do
-        expect(strategy.options.client_options.authorize_url).to eq('https://auth-v1.raspberrypi.org/oauth2/auth')
-      end
-
-      it 'has the correct token url' do
-        expect(strategy.options.client_options.token_url).to eq('https://auth-v1.raspberrypi.org/oauth2/token')
+      it 'can use autodiscovery' do
+        expect(strategy.config).not_to be_nil
       end
 
       describe 'defaults are overrideable' do
         it 'for site' do
-          expect(development.options.client_options.site).to eq(development_site)
+          expect(development.options.client_options.host).to eq(development_host)
         end
 
         it 'for authorize url' do
-          expect(development.options.client_options.authorize_url).to eq(development_authorize_url)
+          expect(development.options.client_options.authorization_endpoint).to eq(development_authorization_endpoint)
         end
 
         it 'for token url' do
-          expect(development.options.client_options.token_url).to eq(development_token_url)
+          expect(development.options.client_options.token_endpoint).to eq(development_token_endpoint)
+        end
+
+        it 'for discovery' do
+          expect(development.options.client_options.discovery).to be false
         end
       end
     end
@@ -132,7 +136,7 @@ end
         expect(strategy.image).to be_nil
         expect(strategy.info['image']).to be_nil
       end
-    end      
+    end
 
     context '#extra' do
       it 'returns roles and picture from deserialised extra if available' do
@@ -148,12 +152,12 @@ end
       end
     end
 
-    describe '#callback_url' do
+    describe '#callback_endpoint' do
       it 'is a combination of host and callback path' do
         allow(strategy).to receive(:full_host).and_return('https://example.com')
         strategy.instance_variable_set(:@env, {})
 
-        expect(strategy.callback_url).to eq("https://example.com/auth/#{provider_name provider}/callback")
+        expect(strategy.callback_endpoint).to eq("https://example.com/auth/#{provider_name provider}/callback")
       end
     end
   end

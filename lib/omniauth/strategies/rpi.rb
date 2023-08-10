@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'omniauth-oauth2'
 require 'jwt'
 
 module OmniAuth::Strategies

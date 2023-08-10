@@ -22,7 +22,7 @@ Gem::Specification.new do |spec|
 
   spec.add_runtime_dependency 'jwt', '~> 2.2.3'
   spec.add_runtime_dependency 'omniauth', '~> 2.0'
-  spec.add_runtime_dependency 'omniauth-oauth2', '~> 1.4'
+  spec.add_runtime_dependency 'omniauth_openid_connect', '~> 0.7.1'
 
   spec.add_development_dependency 'bundler', '~> 2.0'
   spec.add_development_dependency 'rake', '~> 12.3.3'
@@ -30,4 +30,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rubocop', '~> 1.20'
   spec.add_development_dependency 'rubocop-rspec', '~> 2.4.0'
   spec.add_development_dependency 'simplecov', '~> 0.21.2'
+  spec.add_development_dependency 'webmock'
 end

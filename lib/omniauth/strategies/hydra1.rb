@@ -1,30 +1,17 @@
 # frozen_string_literal: true
 
-require 'omniauth-oauth2'
+require 'omniauth/openid_connect'
 require 'jwt'
 
 module OmniAuth
   module Strategies
-    class Hydra1 < OmniAuth::Strategies::OAuth2 
+    class Hydra1 < OmniAuth::Strategies::OpenIDConnect
+      option :issuer,   'https://auth-v1.raspberrypi.org/'
+      option :uid_field, 'sub'
       option :client_options, {
-        site:         'https://auth-v1.raspberrypi.org',
-        authorize_url:'https://auth-v1.raspberrypi.org/oauth2/auth',
-        token_url:    'https://auth-v1.raspberrypi.org/oauth2/token'
+        discovery: true,
+        host: 'auth-v1.raspberrypi.org',
       }
-  
-      def authorize_params
-        super.tap do |params|
-          %w[scope client_options login_options].each do |v|
-            params[v.to_sym] = request.params[v] if request.params[v]
-          end
-        end
-      end
-
-      def callback_url
-        full_host + callback_path
-      end
-
-      uid { raw_info['sub'].to_s }
 
       info do
         {
@@ -40,10 +27,6 @@ module OmniAuth
         {
           'raw_info' => raw_info
         }
-      end
-
-      def raw_info
-        @raw_info ||= (JWT.decode access_token.params['id_token'], nil, false)[0]
       end
 
       def email
