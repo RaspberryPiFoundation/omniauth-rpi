@@ -123,7 +123,7 @@ This ensures that once the `/signup` route has been requested, upon a successful
 
 **Note:** Whilst Hydra v0 routes are still the default in Pi Accounts / Profile, `?login_options=v1_signup` needs to be set for any login path, regardless of whether `force_signup` is also being set, this is to cover cases where a user clicks a log in link but then at the log in UI clicks the create account link instead of logging in.
 
-For the full documentation see: https://github.com/RaspberryPiFoundation/documentation/blob/main/accounts/profile-app/hydra-v1-signup.md
+For the full documentation see: https://digital-docs.rpf-internal.org/docs/codebases/accounts/profile-app/hydra-v1-signup
 
 ## Forcing sign up flow
 
@@ -135,7 +135,7 @@ POST /auth/rpi?login_options=force_signup
 
 (multiple options can be comma-separated, eg. `?login_options=v1_signup,force_signup`)
 
-For the full documentation see: https://github.com/RaspberryPiFoundation/documentation/blob/main/accounts/profile-app/force-signup.md
+For the full documentation see: https://digital-docs.rpf-internal.org/docs/codebases/accounts/profile-app/force-signup
 
 ## Testing
 
