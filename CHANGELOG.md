@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.1] - 2025-7-17
+### Changed
+- jwt version constraint relaxed; see https://github.com/RaspberryPiFoundation/omniauth-rpi/pull/19 for context
+
 ## [1.4.0] - 2023-02-13
 ### Changed
 - Fixes setting of uid from raw_info using sub (uid was previously blank)
